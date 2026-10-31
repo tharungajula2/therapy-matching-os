@@ -1,5 +1,8 @@
 # 🌿 Therapy Matching OS — Single Source of Truth
 
+> [!IMPORTANT]
+> **Historical product and research notes.** This document preserves earlier design intent and may describe proposed behavior or unverified research claims as implemented. For the current source-audited implementation, matching rules, privacy boundaries, and limitations, read the [README](README.md) and [Project Blueprint](PROJECT_BLUEPRINT.md).
+
 > [!NOTE]
 > This document serves as the absolute, complete, and verified "source of truth" for **Therapy Matching OS**. If this entire project were deleted, any software engineer could rebuild it from scratch—identical in logic, mechanics, styles, and databases—using only this document.
 
@@ -32,7 +35,7 @@ Built on a bespoke design system designed to project clinical authority and medi
 
 ## ⚙️ 2. Core Architecture: The Three-Layer Matching Engine
 
-The engine is implemented in [lib/engine/matching.ts](file:///d:/000_before%20portfolio_10526/1_Product%20Lab%20Portfolio/therapy-matching-os/therapy-matching-os/lib/engine/matching.ts) and executes a strict pipeline:
+The engine is implemented in [lib/engine/matching.ts](lib/engine/matching.ts) and executes a strict pipeline:
 
 ```mermaid
 graph TD
@@ -198,7 +201,7 @@ A post-session feedback loop simulates algorithm self-training. The algorithm us
 
 ## 📋 3. Complete Clinical Taxonomy (MECE Classification)
 
-The taxonomy maps the exact codes defined in [data/taxonomy.ts](file:///d:/000_before%20portfolio_10526/1_Product%20Lab%20Portfolio/therapy-matching-os/therapy-matching-os/data/taxonomy.ts):
+The taxonomy maps the exact codes defined in [data/taxonomy.ts](data/taxonomy.ts):
 
 | Code | Clinical Description | Code | Clinical Description |
 | :--- | :--- | :--- | :--- |
