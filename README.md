@@ -1,31 +1,55 @@
-# Therapy Matching OS | AI Product Concept Prototype
+# Therapy Matching OS
 
-**Therapy Matching OS** is an AI-native concept prototype exploring multi-layer compatibility algorithms for therapy-client matching. This project is built to demonstrate complex product mechanics, ethical retention loops, and the intersection of clinical research with user experience design.
+### A client-side product prototype for exploring therapist fit
 
-> [!NOTE]
-> This is a **Product Design Portfolio Asset** built by a Zero-to-One PM to demonstrate technical depth in matching algorithms and mental health tech. It is not a live commercial service.
+Therapy Matching OS turns a short intake flow into an explainable, ranked shortlist from a **seeded therapist catalog**. It explores how language, preferences, concerns, logistics, and working style might shape a more thoughtful discovery experience for people seeking therapy in an Indian context.
 
----
+> **Portfolio prototype, not a care service.** The profiles and outcomes in the repository are illustrative. Scores are hand-weighted compatibility indices, **not clinical probabilities or validated recommendations**. No therapist credentials, certification flags, availability, or outcome figures have been independently verified. Do not enter real health information into this demo.
 
-## 🌿 The Hook
-Most therapy directories optimize for availability or price. Therapy Matching OS optimizes for the **Therapeutic Alliance** — the single strongest predictor of clinical success. It uses a 58-point data model to move beyond "search and filter" into "intelligent pairing."
+[Explore the implementation](PROJECT_BLUEPRINT.md) · [Matching engine](lib/engine/matching.ts) · [Historical research and design notes](SOURCE_OF_TRUTH.md)
 
-## ⚙️ The Engine: How it Works
-The prototype uses a 3-layer matching logic to pair users with their ideal therapist:
+## What you can explore
 
-1. **Layer 1: Hard Filters**: Language, QACP-certification (for queer-affirmative care), and trauma specialization act as binary gates to ensure baseline safety and comfort.
-2. **Layer 2: Weighted Compatibility**: A `SumProduct` algorithm scores matches across the **C-NIP (Complementary-Negative Interpersonal Pattern)** framework, matching clients with therapists whose personality style complements their emotional needs.
-3. **Layer 3: Feedback Learning Loop**: Integrates **ORS (Outcome Rating Scale)** and **SRS (Session Rating Scale)** to track real-time progress and alliance ruptures, identifying high-performing clinicians.
+| Experience | What the code actually does |
+| --- | --- |
+| Guided intake | A multi-step questionnaire converts selected answers into an in-browser profile; a demo autofill is available. A self-harm selection routes to a support screen. |
+| Ranked matches | Hard filters and 27 positive scoring dimensions rank up to three of 16 seeded therapist profiles; a separate anti-match rule can subtract 25 points. The results screen can switch among 22 seeded personas. |
+| Explainability | The engine names leading score contributions and assembles rule-based “why matched” text. |
+| Journey and feedback | Mood, four-slider check-ins, three-question session ratings, and reflections update React state and browser sessionStorage. A dashboard illustrates an alliance alert from the latest rating. |
+| Exploration surfaces | A persona sandbox, preference view, research-story slides, and therapist detail pages expose the concept from different angles. |
 
-## 🛠️ Tech Stack
-- **Frontend**: Next.js (App Router), React, Tailwind CSS
-- **State**: React Context (Rehydrated with SessionStorage)
-- **Design System**: A custom meditative design system utilizing `Fraunces` for clinical authority and `Sage Green` for growth.
-- **Deployment**: Vercel
+The UI also includes a scripted assistant, a booking confirmation mock, and “coming soon” settings and privacy screens. There is **no live booking, clinician communication, AI model, backend, or database** in this source. The feedback weight-update function exists but is not wired into the rating flow; matching uses the default weights each time. See the [implementation map and limitations](PROJECT_BLUEPRINT.md#implementation-status) for details.
 
-## 🔗 Important Links
-- **Live Deployment**: [Vercel Link (Insert Link Here)]
-- **Deep Architecture & Research**: For a comprehensive deep dive into the clinical research, C-NIP weighted algorithm compatibility layers, data schemas, 62-point clinical taxonomy, and 22 MECE patient test personas, see [SOURCE_OF_TRUTH.md](file:///d:/000_before%20portfolio_10526/1_Product%20Lab%20Portfolio/therapy-matching-os/therapy-matching-os/SOURCE_OF_TRUTH.md).
+## How matching works
 
----
-*Built by Tharun Gajula — Zero-to-One AI Product Manager*
+~~~mermaid
+flowchart LR
+  A[Questionnaire or seeded persona] --> B[User profile]
+  B --> C[Hard filters]
+  D[16 seeded therapists] --> C
+  C --> E[Weighted compatibility scores]
+  E --> F[Anti-match penalty]
+  F --> G[Top three and rule-based explanations]
+~~~
+
+Language overlap, selected affirmative-care and trauma flags, high-severity credential flags, and a strong gender preference are non-relaxable gates. Availability, format, and fee gates relax in that order if the first pass finds nobody. Remaining candidates receive a weighted average across dimensions such as concern overlap, style, culture, and logistics. The [blueprint](PROJECT_BLUEPRINT.md#matching-method-in-detail) gives the exact rules, example, and caveats.
+
+## Stack and local exploration
+
+| Layer | Implementation |
+| --- | --- |
+| App | Next.js 16 App Router, React 19, TypeScript |
+| UI | Tailwind CSS 4, Lucide icons, local page components |
+| State | React Context plus browser sessionStorage for profile and logs |
+| Data and ranking | Checked-in TypeScript arrays and synchronous, client-side functions |
+
+~~~bash
+npm ci
+npm run dev
+~~~
+
+Open http://localhost:3000. Start at /onboarding, use **Demo** autofill, or visit /matches to inspect a seeded persona. /admin shows the persona shortlist matrix. These commands are supplied by [package.json](package.json); this documentation review inspected source and did not run or deploy the app.
+
+## Project status
+
+This is a **high-fidelity concept and interaction demo**, useful for discussing product tradeoffs and explainable ranking. It is not ready for clinical use: intake-to-taxonomy mappings need correction, safety and clinician verification need expert review, and the privacy, booking, feedback-learning, and outcome claims need real implementation and validation. The [project blueprint](PROJECT_BLUEPRINT.md) separates shipped behavior, illustrative assumptions, and possible next steps.
